@@ -1,0 +1,37 @@
+version: '3'
+volumes:
+  # We'll define a volume that will store the data from the postgres databases:
+  postgres-data:
+    driver: local
+services:
+  db:
+    restart: always
+    image: ml_postgresql:latest
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      DB_HOST: postgres
+    ports:
+      - 5432:5432
+    container_name: postgres_ml
+    volumes:
+      # We'll mount the 'postgres-data' volume into the location Postgres stores it's data:
+      #- postgres-data:/var/lib/postgresql/data
+      - /Users/ben/dev:/mnt/dev
+      - /Users/ben/dev/postgresdata:/var/lib/postgresql/data
+  python:
+    image: ml_python:latest
+    container_name: python_ml
+    stdin_open: true
+    environment:
+      PGPASSWORD: postgres
+    tty: true
+    links:
+      - db
+    ports:
+      - "49100:22"
+    volumes:
+      - /Users/ben/dev:/mnt/dev
+#    command: alias dm='cd /mnt/dev/stockdatamine'
+ #   command: bash -c "/usr/sbin/sshd -D"
+ 
