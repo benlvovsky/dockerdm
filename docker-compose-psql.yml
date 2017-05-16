@@ -32,6 +32,5 @@ services:
       - "49100:22"
     volumes:
       - /Users/ben/dev:/mnt/dev
-#    command: alias dm='cd /mnt/dev/stockdatamine'
- #   command: bash -c "/usr/sbin/sshd -D"
- 
+#    command: bash -c /usr/sbin/sshd", "-D"
+#    command: bash -c "/etc/init.d/postfix restart && /usr/sbin/sshd -D"
