@@ -25,6 +25,7 @@ services:
     stdin_open: true
     environment:
       PGPASSWORD: postgres
+      PGHOST: postgres_ml
     tty: true
     links:
       - db

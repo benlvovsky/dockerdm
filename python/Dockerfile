@@ -29,6 +29,14 @@ RUN apt-get update \
     python-pip \
     python2.7 \
     python2.7-dev \
+    python-matplotlib \
+    build-essential \
+    python-setuptools \
+    python-numpy \
+    python-scipy \
+    libatlas-dev \
+#    libatlas3gf-base \
+#    libatlas-dev \
     curl \
 #    ssh \
     postgresql-client-9.6 postgresql-contrib-9.6 \
@@ -54,8 +62,9 @@ RUN pip install -U "setuptools==3.4.1"
 RUN pip install -U "pip==1.5.4"
 RUN pip install -U "Mercurial==2.9.1"
 RUN pip install -U "virtualenv==1.11.4"
-RUN pip install psycopg2
-
+RUN pip install -U psycopg2
+#RUN pip install -U numpy scipy scikit-learn
+RUN pip install --user --install-option="--prefix=" -U scikit-learn
 RUN mkdir /var/run/sshd
 
 RUN echo 'root:root' |chpasswd
@@ -74,8 +83,14 @@ RUN echo 'alias dm="cd /mnt/dev/stockdatamine"' >> ~/.bashrc
 RUN sed -i -E 's/^(\s*)system\(\);/\1unix-stream("\/dev\/log");/' /etc/syslog-ng/syslog-ng.conf
 # https://github.com/LyleScott/docker-postfix-gmail-relay/issues/1
 #RUN sed -i '/^smtp_tls_CAfile =/d' /etc/postfix/main.cf
+RUN echo 'SYSLOGNG_OPTS="--no-caps"' >> /etc/default/syslog-ng
 
 EXPOSE 22
-CMD ["sh", "-c", "service syslog-ng start ; service postfix start ; /usr/sbin/sshd -D"]
+CMD ["bash", "-c", "service syslog-ng start ; service postfix start ; /usr/sbin/sshd -D"]
+#TODO: pip install -U scikit-learn
+#TODO: apt-get install python-sklearn 
+#TODO: apt-get build-dep matplotlib
+#TODO: apt-get libjpeg8-dev, libfreetype6-dev, and libpng12-dev
+#CMD ["bash", "-c", "/usr/sbin/sshd -D"]
 #CMD [bash]
 #ENTRYPOINT ["/usr/bin/python2.7"]
