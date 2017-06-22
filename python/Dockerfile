@@ -68,7 +68,7 @@ RUN pip install --user --install-option="--prefix=" -U scikit-learn
 
 ### ta-lib related ###
 RUN pip install cython
-RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
+#RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
 
 RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
   tar -xvzf ta-lib-0.4.0-src.tar.gz && \
