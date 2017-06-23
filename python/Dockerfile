@@ -65,6 +65,13 @@ RUN pip install -U "virtualenv==1.11.4"
 RUN pip install -U psycopg2
 #RUN pip install -U numpy scipy scikit-learn
 RUN pip install --user --install-option="--prefix=" -U scikit-learn
+
+
+#?? maybe do not need the below pandas and talib
+RUN pip install -U pandas
+RUN pip install git+git://github.com/femtotrader/pandas_talib.git
+#########
+
 RUN mkdir /var/run/sshd
 
 RUN echo 'root:root' |chpasswd

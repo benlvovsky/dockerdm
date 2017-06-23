@@ -1,0 +1,18 @@
+version: '3'
+volumes:
+  # We'll define a volume that will store the data from the postgres databases:
+  postgres-data:
+    driver: local
+services:
+  tensor:
+    image: gcr.io/tensorflow/tensorflow
+    container_name: tensorflow
+    stdin_open: true
+    environment:
+      PGPASSWORD: postgres
+    tty: true
+    ports:
+      - "8888:8888"
+      - "6006:6006"
+    volumes:
+      - /Users/ben/dev:/mnt/dev
