@@ -66,11 +66,22 @@ RUN pip install -U psycopg2
 #RUN pip install -U numpy scipy scikit-learn
 RUN pip install --user --install-option="--prefix=" -U scikit-learn
 
-
+RUN pip install cython
 #?? maybe do not need the below pandas and talib
 RUN pip install -U pandas
 RUN pip install git+git://github.com/femtotrader/pandas_talib.git
-#########
+
+### ta-lib related ###
+#RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
+
+RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
+  tar -xvzf ta-lib-0.4.0-src.tar.gz && \
+  cd ta-lib/ && \
+  ./configure --prefix=/usr && \
+  make && \
+  make install
+
+RUN pip install ta-lib
 
 RUN mkdir /var/run/sshd
 
