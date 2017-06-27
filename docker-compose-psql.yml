@@ -17,8 +17,8 @@ services:
     volumes:
       # We'll mount the 'postgres-data' volume into the location Postgres stores it's data:
       #- postgres-data:/var/lib/postgresql/data
-      - /Users/ben/dev:/mnt/dev
-      - /Users/ben/dev/postgresdata:/var/lib/postgresql/data
+      - ${HOME}/dev:/mnt/dev
+      - ${HOME}/dev/postgresdata:/var/lib/postgresql/data
   python:
     image: ml_python:latest
     container_name: python_ml
@@ -32,6 +32,6 @@ services:
     ports:
       - "49100:22"
     volumes:
-      - /Users/ben/dev:/mnt/dev
+      - ${HOME}/dev:/mnt/dev
 #    command: bash -c /usr/sbin/sshd", "-D"
 #    command: bash -c "/etc/init.d/postfix restart && /usr/sbin/sshd -D"
