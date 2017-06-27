@@ -2,6 +2,9 @@
 #docker build -t ml_python python/
 #docker build -t ml_postgresql postgres/
 
+#access to bash on python_ml container:
+#docker exec -it python_ml bash
+
 version: '3'
 volumes:
   # We'll define a volume that will store the data from the postgres databases:
