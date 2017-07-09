@@ -7,7 +7,9 @@ MAINTAINER Michael Twomey, mick@twomeylee.name
 
 # Add the PostgreSQL PGP key to verify their Debian packages.
 # It should be the same key as https://www.postgresql.org/media/keys/ACCC4CF8.asc
-RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+#RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+#RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
 
 # Add PostgreSQL's repository. It contains the most recent stable release
 #     of PostgreSQL, ``9.6``.
@@ -19,7 +21,7 @@ RUN echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set
 
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y \
+    && apt-get install -y --allow-unauthenticated \
     build-essential \
     ca-certificates \
     gcc \
@@ -46,8 +48,15 @@ RUN apt-get update \
     vim \
     syslog-ng \
     syslog-ng-core \
+    apt-utils \
     && apt-get autoremove \
     && apt-get clean
+
+#install nodejs, npm
+#RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && apt-get install -yq nodejs
+RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
+RUN npm install -g npm
 
 RUN /usr/sbin/postconf -e "inet_interfaces = localhost"
 RUN /usr/sbin/postconf -e "compatibility_level = 2"

@@ -1,4 +1,5 @@
 #requires built images:
+#from this directory run:
 #docker build -t ml_python python/
 #docker build -t ml_postgresql postgres/
 
