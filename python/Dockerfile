@@ -91,6 +91,7 @@ RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
   make install
 
 RUN pip install ta-lib
+RUN pip install PyYAML
 ##################
 
 RUN mkdir /var/run/sshd
