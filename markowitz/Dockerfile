@@ -1,5 +1,4 @@
-# Base python 2.7 build, inspired by
-# https://github.com/crosbymichael/python-docker/blob/master/Dockerfile
+# financials scientific libs python 2.7 build
 FROM ubuntu:16.04
 MAINTAINER Benjamin Lvovsky, ben@lvovsky.com
 
@@ -10,6 +9,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc
 
 RUN apt-get update \
     && apt-get upgrade -y \
+    && apt-get install -y wget \
     && apt-get install -y --allow-unauthenticated \
     build-essential \
     ca-certificates \
@@ -41,10 +41,6 @@ RUN npm install -g npm
 
 RUN pip install -U pip setuptools
 RUN pip install -U pandas
-#RUN pip install -U "setuptools==3.4.1"
-#RUN pip install -U "pip==1.5.4"
-#RUN pip install -U "Mercurial==2.9.1"
-#RUN pip install -U "virtualenv==1.11.4"
 RUN pip install -U psycopg2
 #RUN pip install -U numpy scipy scikit-learn
 RUN pip install --user --install-option="--prefix=" -U scikit-learn
@@ -61,6 +57,11 @@ RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
 
 RUN pip install ta-lib
 RUN pip install PyYAML
+
+ADD ./dx  ~/dx
+
+WORKDIR ~/dx
+RUN python setup.py install
 ##################
 
 RUN echo 'root:root' | chpasswd
