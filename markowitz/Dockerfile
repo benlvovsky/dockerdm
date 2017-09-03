@@ -32,6 +32,8 @@ RUN apt-get update \
     syslog-ng \
     syslog-ng-core \
     apt-utils \
+    # not needed in non interactive version. TODO: remove for prod 
+    python-qt4 \
     && apt-get autoremove \
     && apt-get clean
 
@@ -47,6 +49,9 @@ RUN pip install --user --install-option="--prefix=" -U scikit-learn
 RUN pip install -U portfolioopt
 RUN pip install -U cython
 #?? maybe do not need the below pandas and talib
+RUN pip install -U statsmodels
+RUN pip install -U pandas-datareader
+RUN pip install -U seaborn
 
 RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
   tar -xvzf ta-lib-0.4.0-src.tar.gz && \
@@ -58,17 +63,13 @@ RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
 RUN pip install ta-lib
 RUN pip install PyYAML
 
-ADD ./dx  ~/dx
-
-WORKDIR ~/dx
-RUN python setup.py install
 ##################
 
 RUN echo 'root:root' | chpasswd
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
-RUN echo 'alias dev="cd /mnt/dev/markowitz"' >> ~/.bashrc
+RUN echo 'alias dev="cd /mnt/dev/markowitzpy"' >> ~/.bashrc
 
 RUN sed -i -E 's/^(\s*)system\(\);/\1unix-stream("\/dev\/log");/' /etc/syslog-ng/syslog-ng.conf
 RUN echo 'SYSLOGNG_OPTS="--no-caps"' >> /etc/default/syslog-ng
