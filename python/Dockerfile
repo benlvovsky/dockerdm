@@ -115,7 +115,7 @@ RUN sed -i -E 's/^(\s*)system\(\);/\1unix-stream("\/dev\/log");/' /etc/syslog-ng
 RUN echo 'SYSLOGNG_OPTS="--no-caps"' >> /etc/default/syslog-ng
 
 EXPOSE 22
-CMD ["bash", "-c", "service syslog-ng start ; service postfix start ; /usr/sbin/sshd -D"]
+CMD ["bash", "-c", "service syslog-ng start ; /usr/sbin/sshd -D"]
 #TODO: pip install -U scikit-learn
 #TODO: apt-get install python-sklearn 
 #TODO: apt-get build-dep matplotlib

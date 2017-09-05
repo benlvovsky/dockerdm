@@ -31,9 +31,8 @@ RUN apt-get update \
     vim \
     syslog-ng \
     syslog-ng-core \
-    apt-utils \
-    # not needed in non interactive version. TODO: remove for prod 
-    python-qt4 \
+    apt-utils \ 
+    python-qt4 	    # not needed in non interactive version. TODO: remove for prod \
     && apt-get autoremove \
     && apt-get clean
 
@@ -52,6 +51,7 @@ RUN pip install -U cython
 RUN pip install -U statsmodels
 RUN pip install -U pandas-datareader
 RUN pip install -U seaborn
+RUN pip install -U Flask
 
 RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
   tar -xvzf ta-lib-0.4.0-src.tar.gz && \

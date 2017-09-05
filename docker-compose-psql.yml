@@ -46,15 +46,19 @@ services:
 #    command: bash -c "/etc/init.d/postfix restart && /usr/sbin/sshd -D"
   markowitz:
     image: img_markowitz:latest
+    ports:
+     - "5000:5000"
     container_name: markowitz_cont
     stdin_open: true
     environment:
       PGPASSWORD: postgres
       PGHOST: postgres_ml
+      FLASK_APP: webapp.py
     tty: true
     links:
       - db
+    working_dir: /mnt/dev/markowitzpy
     volumes:
       - ${HOME}/dev:/mnt/dev
     command:
-      bash
+      python -m flask run
