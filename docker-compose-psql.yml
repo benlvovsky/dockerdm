@@ -42,12 +42,10 @@ services:
       - "49100:22"
     volumes:
       - ${HOME}/dev:/mnt/dev
-#    command: bash -c /usr/sbin/sshd", "-D"
-#    command: bash -c "/etc/init.d/postfix restart && /usr/sbin/sshd -D"
   markowitz:
     image: img_markowitz:latest
     ports:
-     - "5000:5000"
+     - "5001:5000"
     container_name: markowitz_cont
     stdin_open: true
     environment:
@@ -61,4 +59,4 @@ services:
     volumes:
       - ${HOME}/dev:/mnt/dev
     command:
-      python -m flask run
+      python -m flask run --host=0.0.0.0
