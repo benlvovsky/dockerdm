@@ -1,0 +1,29 @@
+#requires built images:
+#from dockerdm directory run:
+#docker build -t ml_python python/
+#docker build -t ml_postgresql postgres/
+#docker build -t img_markowitz markowitz/
+
+#access to bash on python_ml container:
+#docker exec -it python_ml bash
+
+version: '2'
+services:
+  markowitz:
+    image: img_markowitz:latest
+    ports:
+     - "5001:5000"
+    container_name: markowitz_cont
+    stdin_open: true
+    environment:
+      PGPASSWORD: postgres
+      PGHOST: postgres_ml
+      FLASK_APP: webapp.py
+    tty: true
+    links:
+      - db
+    working_dir: /mnt/dev/markowitzpy
+    volumes:
+      - ${HOME}/dev:/mnt/dev
+    command:
+      python -m flask run --host=0.0.0.0
