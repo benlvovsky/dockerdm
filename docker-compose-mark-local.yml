@@ -11,21 +11,32 @@
 #access to bash on markochart-cont container:
 #docker exec -it markochart-cont bash
 
+#using envionment variables like:
+#export MARKO_CHART_CODE=~/dev/marko-chart
+#export MARKO_CHART_IMAGE=img_markochart:latest
+#export MARKOWITZ_CODE=~/dev/markowitzpy
+#export MARKOWITZ_IMAGE=img_markowitz:latest
+
+#to call markowitz python container with markochart-cont use endpoint: http://markowitz-cont:5000/ef
+#for manual test:
+#1) from the host:                    docker exec -it markochart-cont bash
+#2) once inside marcochart-cont use:  curl http://markowitz-cont:5000/ef
+
 version: '3'
 services:
   frontend:
-    image: img_markochart:latest
+    image: ${MARKO_CHART_IMAGE}
     container_name: markochart-cont
     ports:
       - "3000:3000"
     volumes:
-      - ~/dev/marko-chart:/usr/src/app
+      - ${MARKO_CHART_CODE}:/usr/src/app
       - /usr/src/app/node_modules
     working_dir: /usr/src/app
     links:
       - markowitz
   markowitz:
-    image: img_markowitz:latest
+    image: ${MARKOWITZ_IMAGE}
     ports:
      - "5000:5000"
     container_name: markowitz-cont
@@ -37,6 +48,6 @@ services:
     tty: true
     working_dir: /usr/src/app
     volumes:
-      - ${HOME}/dev/markowitzpy:/usr/src/app
+      - ${MARKOWITZ_CODE}:/usr/src/app
     command:
       python -m flask run --host=0.0.0.0
