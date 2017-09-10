@@ -11,3 +11,9 @@ gcloud container images list-tags gcr.io/expanded-run-177512/img_markowitz
 
 kompose -f ~/dev/dockerdm/docker-compose-mark-gcloud.yml up
 kubectl expose deployment markowitz-cont --type="LoadBalancer"
+
+#static ip address
+gcloud compute addresses create markowitz-static-ip --global
+
+#for details on deployment run:
+kubectl get deployment,svc,pods,pvc

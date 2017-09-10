@@ -7,22 +7,20 @@
 version: '3'
 services:
   frontend:
-    image: gcr.io/expanded-run-177512/img_markochart:latest
+    image: ${MARKO_CHART_IMAGE}
     container_name: markochart-cont
     ports:
-      - "3000:3000"
-#    volumes:
-#      - .:/usr/src/app
-#      - /usr/src/app/node_modules
+      - "80:3000"
     labels:
       kompose.service.type: LoadBalancer
+#      kubernetes.io/ingress.global-static-ip-name: markowitz
 
   markowitz:
-    image: gcr.io/expanded-run-177512/img_markowitz:latest
-    expose:
-      - "5000"
-#    ports:
-#     - "5000:5000"
+    image: ${MARKOWITZ_IMAGE}
+#    expose:
+#      - "5000"
+    ports:
+     - "5000:5000"
     container_name: markowitz-cont
     stdin_open: true
     environment:
@@ -33,7 +31,5 @@ services:
 #    links:
 #      - db
     working_dir: /usr/src/app
-#    volumes:
-#      - ${HOME}/dev/markowitzpy:/usr/src/app
     command:
       python -m flask run --host=0.0.0.0
