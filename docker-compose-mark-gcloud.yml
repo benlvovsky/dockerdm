@@ -1,16 +1,28 @@
 #requires built images:
 #from markowitzpy directory run:
 #docker build -t img_markowitz .
-
 #access to bash on python_ml container:
 #docker exec -it python_ml bash
 
 version: '3'
 services:
+  frontend:
+    image: gcr.io/expanded-run-177512/img_markochart:latest
+    container_name: markochart-cont
+    ports:
+      - "3000:3000"
+#    volumes:
+#      - .:/usr/src/app
+#      - /usr/src/app/node_modules
+    labels:
+      kompose.service.type: LoadBalancer
+
   markowitz:
     image: gcr.io/expanded-run-177512/img_markowitz:latest
-    ports:
-     - "5000:5000"
+    expose:
+      - "5000"
+#    ports:
+#     - "5000:5000"
     container_name: markowitz-cont
     stdin_open: true
     environment:

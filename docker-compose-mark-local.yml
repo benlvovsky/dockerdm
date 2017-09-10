@@ -2,11 +2,28 @@
 #from markowitzpy directory run:
 #docker build -t img_markowitz .
 
-#access to bash on python_ml container:
-#docker exec -it python_ml bash
+#from marko-chart directory run:
+#docker build -t img_markochart .
+
+#access to bash on markowitz-cont container:
+#docker exec -it markowitz-cont bash
+
+#access to bash on markochart-cont container:
+#docker exec -it markochart-cont bash
 
 version: '3'
 services:
+  frontend:
+    image: img_markochart:latest
+    container_name: markochart-cont
+    ports:
+      - "3000:3000"
+    volumes:
+      - ~/dev/marko-chart:/usr/src/app
+      - /usr/src/app/node_modules
+    working_dir: /usr/src/app
+    links:
+      - markowitz
   markowitz:
     image: img_markowitz:latest
     ports:
@@ -18,10 +35,8 @@ services:
       PGHOST: postgres_ml
       FLASK_APP: webapp.py
     tty: true
-#    links:
-#      - db
     working_dir: /usr/src/app
-#    volumes:
-#      - ${HOME}/dev/markowitzpy:/usr/src/app
+    volumes:
+      - ${HOME}/dev/markowitzpy:/usr/src/app
     command:
       python -m flask run --host=0.0.0.0
