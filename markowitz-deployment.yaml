@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose -f /home/ben/dev/dockerdm/docker-compose-mark-gcloud.yml
+      convert
+    kompose.version: 1.1.0 (36652f6)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: markowitz
+  name: markowitz
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: markowitz
+    spec:
+      containers:
+      - args:
+        - python
+        - -m
+        - flask
+        - run
+        - --host=0.0.0.0
+        env:
+        - name: FLASK_APP
+          value: webapp.py
+        - name: PGHOST
+          value: postgres_ml
+        - name: PGPASSWORD
+          value: postgres
+        image: img_markowitz:latest
+        name: markowitz-cont
+        ports:
+        - containerPort: 5000
+        resources: {}
+        stdin: true
+        tty: true
+        workingDir: /usr/src/app
+      restartPolicy: Always
+status: {}
