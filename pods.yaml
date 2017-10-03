@@ -1,0 +1,170 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicaSet","namespace":"default","name":"frontend-3803063055","uid":"fdb81a6a-9626-11e7-bf4b-42010a8000fd","apiVersion":"extensions","resourceVersion":"2859497"}}
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu request for container
+        markochart-cont'
+    creationTimestamp: 2017-10-01T05:02:58Z
+    generateName: frontend-3803063055-
+    labels:
+      io.kompose.service: frontend
+      pod-template-hash: "3803063055"
+    name: frontend-3803063055-2lf8d
+    namespace: default
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: frontend-3803063055
+      uid: fdb81a6a-9626-11e7-bf4b-42010a8000fd
+    resourceVersion: "2860404"
+    selfLink: /api/v1/namespaces/default/pods/frontend-3803063055-2lf8d
+    uid: cb214f6e-a665-11e7-a44a-42010a8000fd
+  spec:
+    containers:
+    - image: gcr.io/expanded-run-177512/img_markochart:latest
+      imagePullPolicy: Always
+      name: markochart-cont
+      ports:
+      - containerPort: 3000
+        protocol: TCP
+      resources:
+        requests:
+          cpu: 100m
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-l45sr
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.alpha.kubernetes.io/notReady
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.alpha.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: default-token-l45sr
+      secret:
+        defaultMode: 420
+        secretName: default-token-l45sr
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2017-10-01T05:02:58Z
+      message: 'No nodes are available that match all of the following predicates::
+        Insufficient cpu (1).'
+      reason: Unschedulable
+      status: "False"
+      type: PodScheduled
+    phase: Pending
+    qosClass: Burstable
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicaSet","namespace":"default","name":"markowitz-3338635133","uid":"ec0865d9-a5ed-11e7-a482-42010a8000fd","apiVersion":"extensions","resourceVersion":"2859443"}}
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu request for container
+        markowitz-cont'
+    creationTimestamp: 2017-10-01T05:02:20Z
+    generateName: markowitz-3338635133-
+    labels:
+      io.kompose.service: markowitz
+      pod-template-hash: "3338635133"
+    name: markowitz-3338635133-rq9hl
+    namespace: default
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: markowitz-3338635133
+      uid: ec0865d9-a5ed-11e7-a482-42010a8000fd
+    resourceVersion: "2860439"
+    selfLink: /api/v1/namespaces/default/pods/markowitz-3338635133-rq9hl
+    uid: b41be96a-a665-11e7-a44a-42010a8000fd
+  spec:
+    containers:
+    - args:
+      - python
+      - -m
+      - flask
+      - run
+      - --host=0.0.0.0
+      env:
+      - name: FLASK_APP
+        value: webapp.py
+      - name: PGHOST
+        value: postgres_ml_1
+      - name: PGPASSWORD
+        value: postgres
+      image: gcr.io/expanded-run-177512/img_markowitz:latest
+      imagePullPolicy: Always
+      name: markowitz-cont
+      ports:
+      - containerPort: 5000
+        protocol: TCP
+      resources:
+        requests:
+          cpu: 100m
+      stdin: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      tty: true
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-l45sr
+        readOnly: true
+      workingDir: /usr/src/app
+    dnsPolicy: ClusterFirst
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.alpha.kubernetes.io/notReady
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.alpha.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: default-token-l45sr
+      secret:
+        defaultMode: 420
+        secretName: default-token-l45sr
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2017-10-01T05:02:20Z
+      message: 'No nodes are available that match all of the following predicates::
+        Insufficient cpu (1).'
+      reason: Unschedulable
+      status: "False"
+      type: PodScheduled
+    phase: Pending
+    qosClass: Burstable
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
