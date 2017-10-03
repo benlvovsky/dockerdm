@@ -2,17 +2,29 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   annotations:
+    deployment.kubernetes.io/revision: "2"
     kompose.cmd: kompose -f /home/ben/dev/dockerdm/docker-compose-mark-gcloud.yml
       convert
     kompose.service.type: LoadBalancer
     kompose.version: 1.1.0 (36652f6)
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"extensions/v1beta1","kind":"Deployment","metadata":{"annotations":{"kompose.cmd":"kompose -f /home/ben/dev/dockerdm/docker-compose-mark-gcloud.yml convert","kompose.service.type":"LoadBalancer","kompose.version":"1.1.0 (36652f6)"},"creationTimestamp":null,"labels":{"io.kompose.service":"frontend"},"name":"frontend","namespace":"default"},"spec":{"replicas":1,"strategy":{},"template":{"metadata":{"creationTimestamp":null,"labels":{"io.kompose.service":"frontend"}},"spec":{"containers":[{"image":"img_markochart:latest","name":"markochart-cont","ports":[{"containerPort":3000}],"resources":{}}],"restartPolicy":"Always"}}},"status":{}}
   creationTimestamp: null
+  generation: 1
   labels:
     io.kompose.service: frontend
   name: frontend
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/frontend
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      io.kompose.service: frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       creationTimestamp: null
@@ -20,10 +32,18 @@ spec:
         io.kompose.service: frontend
     spec:
       containers:
-      - image: img_markochart:latest
+      - image: gcr.io/expanded-run-177512/img_markochart
+        imagePullPolicy: Always
         name: markochart-cont
         ports:
         - containerPort: 3000
+          protocol: TCP
         resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
       restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
 status: {}
