@@ -13,7 +13,7 @@ services:
       - "80:3000"
     labels:
       kompose.service.type: LoadBalancer
-#      kubernetes.io/ingress.global-static-ip-name: markowitz
+#      kubernetes.io/ingress.global-static-ip-name: markowitzstaticip
 
   markowitz:
     image: ${MARKOWITZ_IMAGE}
