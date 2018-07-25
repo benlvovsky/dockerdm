@@ -40,4 +40,4 @@ for manual test:
 1) from the host:                    `docker exec -it markochart-cont bash`
 2) once inside marcochart-cont use:  `curl http://markowitz-cont:5000/ef`
 
-gcloud container clusters get-credentials sit --zone us-central1-a --project expanded-run-177512
+gcloud container clusters get-credentials sit --zone us-central1-a --project financial-portfolio-analysis
